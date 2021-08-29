@@ -1,8 +1,12 @@
+provider "aws" {
+    region = "us-west-1"
+}
+
 data "aws_region" "current" {}
 
 resource "random_string" "rand" {
     length = 24
-    specical = false
+    special = false
     upper   = false
 }
 
@@ -37,10 +41,10 @@ resource "aws_kms_key" "kms_key" {
 
 resource "aws_s3_bucket" "s3_bucket" {
     bucket  = "${local.namespace}-state-bucket"
-    force_destory = var.force_destory_state
+    force_destroy = var.force_destory_state
 
     versioning {
-        enable = true
+        enabled = true
     }
 
     server_side_encryption_configuration {
@@ -69,9 +73,9 @@ resource "aws_dynamodb_table" "dynamodb_table" {
     name = "${local.namespace}-state-lock"
     hash_key = "LockID"
     billing_mode = "PAY_PER_REQUEST"
-    attribute = {
+    attribute {
         name = "LockID"
-        type = "S
+        type = "S"
     }
     tags = {
         ResourceGroup = local.namespace
