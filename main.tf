@@ -15,23 +15,25 @@ locals {
 }
 
 resource "aws_resourcegroups_group" "resourcegroups_group" {
-    name = "${local.namespace}-group"
+  name = "${local.namespace}-group"
 
-    resource_query {
-        query = <<-JSON
+  resource_query {
+    query = <<-JSON
 {
-    "ResourceTypeFilters": [
-        "AWS:AllSupported"
-    ],
-    "TagFilters": [{
-        "Key" : "ResourceGroup",
-        "Values": ["${local.namespace}"]
+  "ResourceTypeFilters": [
+    "AWS::AllSupported"
+  ],
+  "TagFilters": [
+    {
+      "Key": "ResourceGroup",
+      "Values": ["${local.namespace}"]
     }
-    ]
+  ]
 }
-    JSON
-    }
+  JSON
+  }
 }
+
 
 resource "aws_kms_key" "kms_key" {
     tags = {
